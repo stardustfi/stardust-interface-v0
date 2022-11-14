@@ -1,45 +1,90 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import {
-  Button,
-  Container,
-  Card,
   Row,
-  Text,
+  Button,
+  Card,
+  Container,
   Input,
-  Grid,
+  Modal,
+  Text,
 } from "@nextui-org/react";
+import { useState } from "react";
 
 export default function Home() {
+  const [visible, setVisible] = useState(false);
+
+  const handleOpen = () => setVisible(true);
+
+  const handleClose = () => {
+    setVisible(false);
+  };
   return (
-    <Container
-      css={{ alignItems: "center", display: "flex", justifyContent: "center" }}
-    >
-      <Card
+    <>
+      <Container
         css={{
+          alignItems: "center",
           display: "flex",
-          flexDirection: "column",
-          gap: "24px",
-          padding: "12px",
-          width: "512px",
+          justifyContent: "center",
         }}
       >
-        <Grid.Container gap={2}>
-          <Grid>
-            <Input bordered label="Collateral" />
-          </Grid>
-          <Grid>
-            <Button color="gradient" auto>
-              Create Order
+        <Card
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "24px",
+            padding: "12px",
+            width: "512px",
+          }}
+        >
+          <Row align="flex-end" css={{ gap: "12px" }} justify="space-between">
+            <Input
+              css={{ flex: 3 }}
+              bordered
+              label="Collateral"
+              placeholder="0"
+            />
+            <Button auto css={{ flex: 1 }} onClick={handleOpen}>
+              ETH
             </Button>
-          </Grid>
-        </Grid.Container>
-        <Input bordered label="Token Out" />
-        <Button color="gradient" auto>
-          Create Order
-        </Button>
-      </Card>
-    </Container>
+          </Row>
+          <Row align="flex-end" css={{ gap: "12px" }} justify="space-between">
+            <Input
+              css={{ flex: 3 }}
+              bordered
+              label="Token Out"
+              placeholder="0"
+            />
+            <Button auto css={{ flex: 1 }} onClick={handleOpen}>
+              DAI
+            </Button>
+          </Row>
+          <Button color="gradient" auto>
+            Create Order
+          </Button>
+        </Card>
+      </Container>
+      <TokenModal onClose={handleClose} visible={visible} />
+    </>
   );
 }
+
+interface TokenModalProps {
+  visible: boolean;
+  onClose: () => void;
+}
+const TokenModal: React.FC<TokenModalProps> = ({ visible, onClose }) => {
+  return (
+    <Modal
+      closeButton
+      aria-labelledby="modal-title"
+      open={visible}
+      onClose={onClose}
+    >
+      <Modal.Header>
+        <Text id="modal-title" size={18}>
+          Select Token
+        </Text>
+      </Modal.Header>
+      <Modal.Body>Tokens</Modal.Body>
+    </Modal>
+  );
+};

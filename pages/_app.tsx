@@ -11,6 +11,7 @@ import { Karla } from "@next/font/google";
 
 const karla = Karla({
   weight: "400",
+  subsets: ["latin"],
 });
 
 const darkTheme = createTheme({
