@@ -10,6 +10,7 @@ import { Karla } from "@next/font/google";
 
 const karla = Karla({
   weight: "400",
+  subsets: ["latin"],
 });
 
 const darkTheme = createTheme({
@@ -20,7 +21,7 @@ const darkTheme = createTheme({
 });
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [chain.goerli],
   [
     // alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider(),

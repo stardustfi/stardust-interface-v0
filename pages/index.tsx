@@ -1,15 +1,22 @@
 import {
-  Button,
-  Container,
-  Card,
   Row,
-  Text,
+  Button,
+  Card,
+  Container,
   Input,
-  Grid,
+  Modal,
+  Text,
 } from "@nextui-org/react";
-import OffersTable from "./OffersTable";
+import { useState } from "react";
 
 export default function Home() {
+  const [visible, setVisible] = useState(false);
+
+  const handleOpen = () => setVisible(true);
+
+  const handleClose = () => {
+    setVisible(false);
+  };
   return (
     <>
       <Container
@@ -28,22 +35,56 @@ export default function Home() {
             width: "512px",
           }}
         >
-          <Grid.Container gap={2}>
-            <Grid>
-              <Input bordered label="Collateral" />
-            </Grid>
-            <Grid>
-              <Button color="gradient" auto>
-                Create Order
-              </Button>
-            </Grid>
-          </Grid.Container>
-          <Input bordered label="Token Out" />
+          <Row align="flex-end" css={{ gap: "12px" }} justify="space-between">
+            <Input
+              css={{ flex: 3 }}
+              bordered
+              label="Collateral"
+              placeholder="0"
+            />
+            <Button auto css={{ flex: 1 }} onClick={handleOpen}>
+              ETH
+            </Button>
+          </Row>
+          <Row align="flex-end" css={{ gap: "12px" }} justify="space-between">
+            <Input
+              css={{ flex: 3 }}
+              bordered
+              label="Token Out"
+              placeholder="0"
+            />
+            <Button auto css={{ flex: 1 }} onClick={handleOpen}>
+              DAI
+            </Button>
+          </Row>
           <Button color="gradient" auto>
             Create Order
           </Button>
         </Card>
       </Container>
+      <TokenModal onClose={handleClose} visible={visible} />
     </>
   );
 }
+
+interface TokenModalProps {
+  visible: boolean;
+  onClose: () => void;
+}
+const TokenModal: React.FC<TokenModalProps> = ({ visible, onClose }) => {
+  return (
+    <Modal
+      closeButton
+      aria-labelledby="modal-title"
+      open={visible}
+      onClose={onClose}
+    >
+      <Modal.Header>
+        <Text id="modal-title" size={18}>
+          Select Token
+        </Text>
+      </Modal.Header>
+      <Modal.Body>Tokens</Modal.Body>
+    </Modal>
+  );
+};
